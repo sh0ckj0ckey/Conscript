@@ -32,7 +32,7 @@
                     </controls:SettingsCard.Header>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBlock Text="❤" VerticalAlignment="Center"/>
+                            <TextBlock Text="⭐" VerticalAlignment="Center"/>
                             <TextBlock Text="给个好评" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
@@ -62,7 +62,7 @@
                 <TextBlock Text="数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
                 <controls:SettingsCard Header="文件" Description="所有的脚本文件都存放在 &quot;文档&quot; 中">
                     <controls:SettingsCard.HeaderIcon>
-                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEC50;"/>
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <Button Height="32" MinWidth="114" Click="OnClickDbPath">
                         <StackPanel Orientation="Horizontal" Spacing="6">

@@ -14,6 +14,7 @@
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorLight2}"/>
 
                     <BitmapImage x:Key="NAV_LOGO_IMG" UriSource="ms-appx:///Assets/powershortcut_logo_dark.png" DecodePixelHeight="168" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="NAV_ERROR_IMG" UriSource="ms-appx:///Assets/powershortcut_empty_dark.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icons/icon_github_dark.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -30,6 +31,7 @@
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorDark1}"/>
 
                     <BitmapImage x:Key="NAV_LOGO_IMG" UriSource="ms-appx:///Assets/powershortcut_logo_light.png" DecodePixelHeight="168" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="NAV_ERROR_IMG" UriSource="ms-appx:///Assets/powershortcut_empty_light.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icons/icon_github_light.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

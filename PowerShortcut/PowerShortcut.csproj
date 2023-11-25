@@ -24,6 +24,9 @@
 		<None Remove="Assets\Icons\icon_github_light.png" />
 		<None Remove="Assets\Icons\icon_mail.png" />
 		<None Remove="Assets\powershortcut.ico" />
+		<None Remove="Assets\powershortcut_empty.png" />
+		<None Remove="Assets\powershortcut_empty_dark.png" />
+		<None Remove="Assets\powershortcut_empty_light.png" />
 		<None Remove="Assets\powershortcut_logo.png" />
 		<None Remove="Assets\powershortcut_logo_dark.png" />
 		<None Remove="Assets\powershortcut_logo_light.png" />

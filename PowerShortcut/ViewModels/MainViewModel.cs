@@ -31,6 +31,11 @@ namespace PowerShortcut.ViewModels
 
         public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
 
+        /// <summary>
+        /// 全部脚本列表
+        /// </summary>
+        public ObservableCollection<ShortcutModel> AllShortcuts = new ObservableCollection<ShortcutModel>();
+
         public MainViewModel()
         {
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
@@ -46,7 +51,44 @@ namespace PowerShortcut.ViewModels
             MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationSettingItem());
 
+            LoadTest();
         }
 
+        private async void LoadTest()
+        {
+            await Task.Delay(2000);
+
+            AllShortcuts.Add(new ShortcutModel()
+            {
+                ShortcutColor = ShortcutColorEnum.Blue,
+                ShortcutIcon = "\uE678",
+                ShortcutName = "禁用摄像头",
+                ShortcutType = ShortcutTypeEnum.Ps1
+            });
+
+            AllShortcuts.Add(new ShortcutModel()
+            {
+                ShortcutColor = ShortcutColorEnum.Gray,
+                ShortcutIcon = "\uE114",
+                ShortcutName = "开启摄像头",
+                ShortcutType = ShortcutTypeEnum.Ps1
+            });
+
+            AllShortcuts.Add(new ShortcutModel()
+            {
+                ShortcutColor = ShortcutColorEnum.Purple,
+                ShortcutIcon = "\uE12B",
+                ShortcutName = "断网",
+                ShortcutType = ShortcutTypeEnum.Bat
+            });
+
+            AllShortcuts.Add(new ShortcutModel()
+            {
+                ShortcutColor = ShortcutColorEnum.Yellow,
+                ShortcutIcon = "\uE1D5",
+                ShortcutName = "开始录音开始录音开始录音开始录音开始录音",
+                ShortcutType = ShortcutTypeEnum.Ps1
+            });
+        }
     }
 }

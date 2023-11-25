@@ -14,8 +14,6 @@
 
     <Page.Resources>
 
-        <converter:CurrentPage2LogoOpacityConverter x:Key="Page2Opacity"/>
-
         <Thickness x:Key="NavigationViewContentMargin">0,0,0,0</Thickness>
         <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>

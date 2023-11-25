@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using PowerShortcut.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -23,9 +24,13 @@ namespace PowerShortcut.Views
     /// </summary>
     public sealed partial class ShortcutsPage : Page
     {
+        private MainViewModel MainViewModel = null;
+
         public ShortcutsPage()
         {
             this.InitializeComponent();
+
+            MainViewModel = MainViewModel.Instance;
         }
     }
 }
