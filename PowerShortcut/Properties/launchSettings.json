@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PowerShortcut (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PowerShortcut (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
