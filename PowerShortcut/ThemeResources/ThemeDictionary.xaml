@@ -9,12 +9,13 @@
                     <Color x:Key="APPLICATION_ITEM_BK">#0BFFFFFF</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#16FFFFFF</Color>
 
-                    <Color x:Key="SEARCHBOX_NORMAL_BD">#16FFFFFF</Color>
-                    <Color x:Key="SEARCHBOX_HOVER_BD">#20FFFFFF</Color>
+                    <Color x:Key="EXCUTE_BK">#000000</Color>
+                    
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorLight2}"/>
 
                     <BitmapImage x:Key="NAV_LOGO_IMG" UriSource="ms-appx:///Assets/powershortcut_logo_dark.png" DecodePixelHeight="168" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="NAV_ERROR_IMG" UriSource="ms-appx:///Assets/powershortcut_empty_dark.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="INFO_WAIT_IMG" UriSource="ms-appx:///Assets/powershortcut_waiting_dark.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icons/icon_github_dark.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -26,12 +27,13 @@
                     <Color x:Key="APPLICATION_ITEM_BK">#08000000</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#10000000</Color>
 
-                    <Color x:Key="SEARCHBOX_NORMAL_BD">#10000000</Color>
-                    <Color x:Key="SEARCHBOX_HOVER_BD">#20000000</Color>
+                    <Color x:Key="EXCUTE_BK">#FFFFFF</Color>
+                    
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorDark1}"/>
 
                     <BitmapImage x:Key="NAV_LOGO_IMG" UriSource="ms-appx:///Assets/powershortcut_logo_light.png" DecodePixelHeight="168" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="NAV_ERROR_IMG" UriSource="ms-appx:///Assets/powershortcut_empty_light.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="INFO_WAIT_IMG" UriSource="ms-appx:///Assets/powershortcut_waiting_light.png" DecodePixelHeight="180" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icons/icon_github_light.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

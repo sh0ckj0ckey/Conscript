@@ -30,6 +30,8 @@
 		<None Remove="Assets\powershortcut_logo.png" />
 		<None Remove="Assets\powershortcut_logo_dark.png" />
 		<None Remove="Assets\powershortcut_logo_light.png" />
+		<None Remove="Assets\powershortcut_waiting_dark.png" />
+		<None Remove="Assets\powershortcut_waiting_light.png" />
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
 		<None Remove="Views\AddingPage.xaml" />
 		<None Remove="Views\BatsPage.xaml" />

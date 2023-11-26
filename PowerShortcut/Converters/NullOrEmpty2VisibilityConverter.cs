@@ -12,12 +12,12 @@ namespace PowerShortcut.Converters
             {
                 if (parameter == null)
                 {
-                    return (value == null || string.IsNullOrWhiteSpace(value?.ToString())) ? Visibility.Collapsed : Visibility.Visible;
+                    return (value == null || string.IsNullOrEmpty(value?.ToString())) ? Visibility.Collapsed : Visibility.Visible;
                 }
 
                 if (parameter != null && parameter.ToString() == "-")
                 {
-                    return (value == null || string.IsNullOrWhiteSpace(value?.ToString())) ? Visibility.Visible : Visibility.Collapsed;
+                    return (value == null || string.IsNullOrEmpty(value?.ToString())) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
             catch { }

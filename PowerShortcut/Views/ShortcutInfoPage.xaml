@@ -15,6 +15,7 @@
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
         <converters:Enum2ColorConverter x:Key="Enum2Color"/>
         <converters:Enum2FileExtConverter x:Key="Enum2Ext"/>
+        <converters:NullOrEmpty2VisibilityConverter x:Key="Str2Vis"/>
     </Page.Resources>
 
     <Grid>
@@ -40,8 +41,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Padding="12" HorizontalAlignment="Left">
+            <Button Grid.Column="0" Padding="12" HorizontalAlignment="Left" Click="OnClickBack">
                 <Button.Content>
                     <AnimatedIcon x:Name="SearchAnimatedIcon" Height="20">
                         <AnimatedIcon.Source>
@@ -53,7 +55,8 @@
                     </AnimatedIcon>
                 </Button.Content>
             </Button>
-            <Button Grid.Column="1" Margin="16,0,0,0" Padding="12" HorizontalAlignment="Left">
+            <Button Grid.Column="1" Margin="8,0,0,0" Padding="12" HorizontalAlignment="Left" Click="OnClickRun"
+                    IsEnabled="{x:Bind MainViewModel.ShortcutFileExists,Mode=OneWay}">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5B0;" FontSize="14"/>
                     <TextBlock Text="立即运行" FontSize="14" FontWeight="Bold" CharacterSpacing="64"/>
@@ -61,22 +64,42 @@
             </Button>
             <Button Grid.Column="3" Padding="12" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
+                    <TextBlock Text="编辑" FontSize="14" CharacterSpacing="64"/>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="4" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left" IsEnabled="{x:Bind MainViewModel.ShortcutFileExists,Mode=OneWay}">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1A5;" FontSize="14"/>
                     <TextBlock Text="查看" FontSize="14" CharacterSpacing="64"/>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="4" Padding="12" Margin="16,0,0,0" HorizontalAlignment="Left">
+            <Button Grid.Column="5" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;" FontSize="14" Foreground="Firebrick"/>
                 </StackPanel>
             </Button>
         </Grid>
-        <ScrollViewer Grid.Row="2" Padding="20,0,20,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{x:Bind MainViewModel.ShortcutOutput,Mode=OneWay}" FontFamily="Consolas"/>
-                <TextBlock Text="{x:Bind MainViewModel.ShortcutError,Mode=OneWay}" FontFamily="Consolas"/>
-                <TextBlock Text="{x:Bind MainViewModel.ShortcutExitCode,Mode=OneWay}" FontFamily="Consolas"/>
-            </StackPanel>
-        </ScrollViewer>
+        <Grid Grid.Row="2" Margin="64" CornerRadius="8" Background="{ThemeResource EXCUTE_BK}">
+            <Image Visibility="{x:Bind MainViewModel.ShortcutExitCode,Mode=OneWay,Converter={StaticResource Str2Vis},ConverterParameter=-}" Source="{ThemeResource INFO_WAIT_IMG}" Height="180" Width="180" Opacity="0.1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ScrollViewer Padding="20,20,20,20" Visibility="{x:Bind MainViewModel.ShortcutExitCode,Mode=OneWay,Converter={StaticResource Str2Vis}}"
+                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Auto" HorizontalScrollMode="Auto">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="执行结果" CharacterSpacing="64" FontWeight="Bold" Margin="0,0,0,2"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Spacing="6" Visibility="{x:Bind MainViewModel.ShortcutOutput,Mode=OneWay,Converter={StaticResource Str2Vis}}">
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF167;" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock Text="输出" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,2"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind MainViewModel.ShortcutOutput,Mode=OneWay}" IsTextSelectionEnabled="True" FontFamily="Consolas" Visibility="{x:Bind MainViewModel.ShortcutOutput,Mode=OneWay,Converter={StaticResource Str2Vis}}"/>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0" Spacing="6" Visibility="{x:Bind MainViewModel.ShortcutError,Mode=OneWay,Converter={StaticResource Str2Vis}}">
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEB90;" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock Text="错误" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,2"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind MainViewModel.ShortcutError,Mode=OneWay}" IsTextSelectionEnabled="True" FontFamily="Consolas" Visibility="{x:Bind MainViewModel.ShortcutError,Mode=OneWay,Converter={StaticResource Str2Vis}}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using PowerShortcut.ViewModels;
+using PowerShortcut.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,6 +32,27 @@ namespace PowerShortcut.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
+        }
+
+        private void OnClickBack(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (this.Frame.CanGoBack)
+                {
+                    this.Frame.GoBack();
+                }
+            }
+            catch { }
+        }
+
+        private void OnClickRun(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainViewModel.Instance.LaunchShortcut(MainViewModel.Instance.CurrentShortcut);
+            }
+            catch { }
         }
     }
 }

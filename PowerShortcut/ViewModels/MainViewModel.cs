@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PowerShortcut.Core;
 using PowerShortcut.Models;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace PowerShortcut.ViewModels
 {
@@ -16,6 +18,8 @@ namespace PowerShortcut.ViewModels
     {
         private static Lazy<MainViewModel> _lazyVM = new Lazy<MainViewModel>(() => new MainViewModel());
         public static MainViewModel Instance => _lazyVM.Value;
+
+        public Microsoft.UI.Dispatching.DispatcherQueue DispatcherQueue = null;
 
         public SettingsService AppSettings { get; set; } = new SettingsService();
 
@@ -52,6 +56,16 @@ namespace PowerShortcut.ViewModels
         {
             get => _currentShortcut;
             set => SetProperty(ref _currentShortcut, value);
+        }
+
+        /// <summary>
+        /// 当前选择的脚本是否正在运行
+        /// </summary>
+        private bool _shortcutRunning = false;
+        public bool ShortcutRunning
+        {
+            get => _shortcutRunning;
+            set => SetProperty(ref _shortcutRunning, value);
         }
 
         /// <summary>
@@ -155,42 +169,67 @@ namespace PowerShortcut.ViewModels
         {
             CurrentShortcut = shortcut;
             ShortcutFileExists = (!string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) && File.Exists(shortcut.ScriptFilePath));
-
+            ShortcutRunning = false;
+            ShortcutOutput = string.Empty;
+            ShortcutError = string.Empty;
+            ShortcutExitCode = string.Empty;
         }
 
-        public void LaunchShortcut(ShortcutModel shortcut)
+        public async void LaunchShortcut(ShortcutModel shortcut)
         {
             if (shortcut != null)
             {
+                ShortcutRunning = true;
                 ShortcutOutput = string.Empty;
                 ShortcutError = string.Empty;
                 ShortcutExitCode = string.Empty;
 
-                var processInfo = new ProcessStartInfo();
-                processInfo.CreateNoWindow = true;
-                processInfo.UseShellExecute = false;
-                processInfo.WorkingDirectory = Path.GetDirectoryName(shortcut.ScriptFilePath);
-                processInfo.RedirectStandardError = true;
-                processInfo.RedirectStandardOutput = true;
-
-                if (shortcut.ShortcutType == ShortcutTypeEnum.Ps1)
+                await Task.Run(() =>
                 {
-                    processInfo.FileName = "powershell.exe";
-                    processInfo.Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{shortcut.ScriptFilePath}\"";
-                }
-                else if (shortcut.ShortcutType == ShortcutTypeEnum.Bat)
-                {
-                    processInfo.FileName = shortcut.ScriptFilePath;
-                }
+                    try
+                    {
+                        var processInfo = new ProcessStartInfo();
+                        processInfo.CreateNoWindow = true;
+                        processInfo.UseShellExecute = false;
+                        processInfo.WorkingDirectory = Path.GetDirectoryName(shortcut.ScriptFilePath);
+                        processInfo.RedirectStandardError = true;
+                        processInfo.RedirectStandardOutput = true;
 
-                var process = Process.Start(processInfo);
-                process.WaitForExit();
+                        if (shortcut.ShortcutType == ShortcutTypeEnum.Ps1)
+                        {
+                            processInfo.FileName = "powershell.exe";
+                            processInfo.Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{shortcut.ScriptFilePath}\"";
+                        }
+                        else if (shortcut.ShortcutType == ShortcutTypeEnum.Bat)
+                        {
+                            processInfo.FileName = shortcut.ScriptFilePath;
+                        }
 
-                ShortcutOutput = process.StandardOutput.ReadToEnd();
-                ShortcutError = process.StandardError.ReadToEnd();
-                ShortcutExitCode = process.ExitCode.ToString();
+                        var process = Process.Start(processInfo);
+                        process.WaitForExit();
 
-                process.Close();
+                        string output = process.StandardOutput.ReadToEnd();
+                        string error = process.StandardError.ReadToEnd();
+                        string exitCode = process.ExitCode.ToString();
+
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            ShortcutOutput = output;
+                            ShortcutError = error;
+                            ShortcutExitCode = exitCode;
+                        });
+
+                        process.Close();
+                    }
+                    catch { }
+                    finally
+                    {
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            ShortcutRunning = false;
+                        });
+                    }
+                });
             }
         }
 
