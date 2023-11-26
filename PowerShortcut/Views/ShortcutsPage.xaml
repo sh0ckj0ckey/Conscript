@@ -35,26 +35,12 @@
                 </controls:ItemsRepeater.Layout>
                 <DataTemplate x:DataType="models:ShortcutModel">
                     <Button ToolTipService.ToolTip="{x:Bind ShortcutName,Mode=OneWay}" Style="{ThemeResource AccentButtonStyle}" Background="{x:Bind ShortcutColor,Mode=OneWay,Converter={StaticResource Enum2Color}}"
-                            Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            Padding="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            DataContext="{x:Bind }" Click="OnClickShortcut">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <TextBlock FontSize="14" Margin="12,12,8,0" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock FontSize="40" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            <TextBlock x:Name="ConnectedTextBlock" FontSize="40" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                         </Grid>
-                        <Button.ContextFlyout>
-                            <controls:MenuFlyout>
-                                <MenuFlyoutItem Text="查看详情">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE946;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="删除">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE107;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </controls:MenuFlyout>
-                        </Button.ContextFlyout>
                     </Button>
                 </DataTemplate>
             </controls:ItemsRepeater>

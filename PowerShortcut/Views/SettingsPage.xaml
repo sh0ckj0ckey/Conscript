@@ -32,7 +32,7 @@
                     </controls:SettingsCard.Header>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBlock Text="⭐" VerticalAlignment="Center"/>
+                            <FontIcon FontFamily="Segoe UI Emoji" Glyph="&#x2B50;" FontSize="14" VerticalAlignment="Center"/>
                             <TextBlock Text="给个好评" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
@@ -105,7 +105,10 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
+                <Grid>
+                    <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
+                    <TextBlock Text="图标来源网络，如有侵权请联系" HorizontalAlignment="Right" Opacity="0.5" CharacterSpacing="48" FontSize="12" Margin="4,8,4,8"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

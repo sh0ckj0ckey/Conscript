@@ -34,7 +34,7 @@ namespace PowerShortcut.Views
         {
             ("all", typeof(ShortcutsPage)),
             ("ps", typeof(PowershellsPage)),
-            ("bat", typeof(BATsPage)),
+            ("bat", typeof(BatsPage)),
             ("add", typeof(AddingPage)),
             ("settings", typeof(SettingsPage)),
         };

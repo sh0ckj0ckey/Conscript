@@ -32,10 +32,11 @@
 		<None Remove="Assets\powershortcut_logo_light.png" />
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
 		<None Remove="Views\AddingPage.xaml" />
-		<None Remove="Views\BATsPage.xaml" />
+		<None Remove="Views\BatsPage.xaml" />
 		<None Remove="Views\MainPage.xaml" />
 		<None Remove="Views\PowershellsPage.xaml" />
 		<None Remove="Views\SettingsPage.xaml" />
+		<None Remove="Views\ShortcutInfoPage.xaml" />
 		<None Remove="Views\ShortcutsPage.xaml" />
 	</ItemGroup>
 
@@ -60,6 +61,11 @@
 	  <ProjectReference Include="..\PowerShortcut.Core\PowerShortcut.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Page Update="Views\ShortcutInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
 	  <Page Update="Views\AddingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
@@ -70,7 +76,7 @@
 	  </Page>
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="Views\BATsPage.xaml">
+	  <Page Update="Views\BatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

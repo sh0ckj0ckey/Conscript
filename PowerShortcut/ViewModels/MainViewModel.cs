@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +29,7 @@ namespace PowerShortcut.ViewModels
         /// </summary>
         public Action ActChangeBackdrop { get; set; } = null;
 
+
         public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
 
         public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
@@ -35,6 +38,63 @@ namespace PowerShortcut.ViewModels
         /// 全部脚本列表
         /// </summary>
         public ObservableCollection<ShortcutModel> AllShortcuts = new ObservableCollection<ShortcutModel>();
+
+        public ObservableCollection<ShortcutModel> Ps1Shortcuts = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> BatShortcuts = new ObservableCollection<ShortcutModel>();
+
+        #region 选择脚本
+
+        /// <summary>
+        /// 当前选中的脚本
+        /// </summary>
+        private ShortcutModel _currentShortcut = null;
+        public ShortcutModel CurrentShortcut
+        {
+            get => _currentShortcut;
+            set => SetProperty(ref _currentShortcut, value);
+        }
+
+        /// <summary>
+        /// 当前选择的脚本是否存在文件
+        /// </summary>
+        private bool _shortcutFileExists = true;
+        public bool ShortcutFileExists
+        {
+            get => _shortcutFileExists;
+            set => SetProperty(ref _shortcutFileExists, value);
+        }
+
+        /// <summary>
+        /// 当前执行的脚本的输出内容
+        /// </summary>
+        private string _shortcutOutput = string.Empty;
+        public string ShortcutOutput
+        {
+            get => _shortcutOutput;
+            set => SetProperty(ref _shortcutOutput, value);
+        }
+
+        /// <summary>
+        /// 当前执行的脚本的错误内容
+        /// </summary>
+        private string _shortcutError = string.Empty;
+        public string ShortcutError
+        {
+            get => _shortcutError;
+            set => SetProperty(ref _shortcutError, value);
+        }
+
+        /// <summary>
+        /// 当前执行的脚本的返回值
+        /// </summary>
+        private string _shortcutExitCode = string.Empty;
+        public string ShortcutExitCode
+        {
+            get => _shortcutExitCode;
+            set => SetProperty(ref _shortcutExitCode, value);
+        }
+
+        #endregion
 
         public MainViewModel()
         {
@@ -54,10 +114,8 @@ namespace PowerShortcut.ViewModels
             LoadTest();
         }
 
-        private async void LoadTest()
+        private void LoadTest()
         {
-            await Task.Delay(2000);
-
             AllShortcuts.Add(new ShortcutModel()
             {
                 ShortcutColor = ShortcutColorEnum.Blue,
@@ -79,7 +137,8 @@ namespace PowerShortcut.ViewModels
                 ShortcutColor = ShortcutColorEnum.Purple,
                 ShortcutIcon = "\uE12B",
                 ShortcutName = "断网",
-                ShortcutType = ShortcutTypeEnum.Bat
+                ShortcutType = ShortcutTypeEnum.Bat,
+                ScriptFilePath = @"C:\Users\Shock Jockey\Documents\NoMewing\PowerShortcut\a.bat"
             });
 
             AllShortcuts.Add(new ShortcutModel()
@@ -87,8 +146,78 @@ namespace PowerShortcut.ViewModels
                 ShortcutColor = ShortcutColorEnum.Yellow,
                 ShortcutIcon = "\uE1D5",
                 ShortcutName = "开始录音开始录音开始录音开始录音开始录音",
-                ShortcutType = ShortcutTypeEnum.Ps1
+                ShortcutType = ShortcutTypeEnum.Ps1,
+                ScriptFilePath = @"C:\Users\Shock Jockey\Documents\NoMewing\PowerShortcut\b.ps1"
             });
+        }
+
+        public void SelectShortcut(ShortcutModel shortcut)
+        {
+            CurrentShortcut = shortcut;
+            ShortcutFileExists = (!string.IsNullOrWhiteSpace(shortcut.ScriptFilePath) && File.Exists(shortcut.ScriptFilePath));
+
+        }
+
+        public void LaunchShortcut(ShortcutModel shortcut)
+        {
+            if (shortcut != null)
+            {
+                ShortcutOutput = string.Empty;
+                ShortcutError = string.Empty;
+                ShortcutExitCode = string.Empty;
+
+                var processInfo = new ProcessStartInfo();
+                processInfo.CreateNoWindow = true;
+                processInfo.UseShellExecute = false;
+                processInfo.WorkingDirectory = Path.GetDirectoryName(shortcut.ScriptFilePath);
+                processInfo.RedirectStandardError = true;
+                processInfo.RedirectStandardOutput = true;
+
+                if (shortcut.ShortcutType == ShortcutTypeEnum.Ps1)
+                {
+                    processInfo.FileName = "powershell.exe";
+                    processInfo.Arguments = $"-NoProfile -ExecutionPolicy ByPass -File \"{shortcut.ScriptFilePath}\"";
+                }
+                else if (shortcut.ShortcutType == ShortcutTypeEnum.Bat)
+                {
+                    processInfo.FileName = shortcut.ScriptFilePath;
+                }
+
+                var process = Process.Start(processInfo);
+                process.WaitForExit();
+
+                ShortcutOutput = process.StandardOutput.ReadToEnd();
+                ShortcutError = process.StandardError.ReadToEnd();
+                ShortcutExitCode = process.ExitCode.ToString();
+
+                process.Close();
+            }
+        }
+
+        public void UpdatePs1Shortcuts()
+        {
+            Ps1Shortcuts.Clear();
+
+            foreach (var item in AllShortcuts)
+            {
+                if (item.ShortcutType == ShortcutTypeEnum.Ps1)
+                {
+                    Ps1Shortcuts.Add(item);
+                }
+            }
+        }
+
+        public void UpdateBatShortcuts()
+        {
+            BatShortcuts.Clear();
+
+            foreach (var item in AllShortcuts)
+            {
+                if (item.ShortcutType == ShortcutTypeEnum.Bat)
+                {
+                    BatShortcuts.Add(item);
+                }
+            }
         }
     }
 }

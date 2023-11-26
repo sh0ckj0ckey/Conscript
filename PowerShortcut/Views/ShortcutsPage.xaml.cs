@@ -9,7 +9,9 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using PowerShortcut.Models;
 using PowerShortcut.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -31,6 +33,17 @@ namespace PowerShortcut.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
+        }
+
+        private void OnClickShortcut(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.DataContext is ShortcutModel shortcutModel)
+            {
+                MainViewModel.Instance.SelectShortcut(shortcutModel);
+                //MainViewModel.Instance.LaunchShortcut(shortcutModel);
+
+                Frame.Navigate(typeof(ShortcutInfoPage), null);
+            }
         }
     }
 }
