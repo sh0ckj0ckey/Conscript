@@ -62,7 +62,11 @@
                     <TextBlock Text="立即运行" FontSize="14" FontWeight="Bold" CharacterSpacing="64"/>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="3" Padding="12" HorizontalAlignment="Left">
+            <StackPanel Grid.Column="2" Spacing="6" Margin="16,0,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7BA;" FontSize="14" Foreground="Goldenrod"/>
+                <TextBlock Text="脚本文件已经丢失" FontSize="14" CharacterSpacing="32" Foreground="Goldenrod"/>
+            </StackPanel>
+            <Button Grid.Column="3" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
                     <TextBlock Text="编辑" FontSize="14" CharacterSpacing="64"/>
@@ -77,10 +81,11 @@
             <Button Grid.Column="5" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;" FontSize="14" Foreground="Firebrick"/>
+                    <TextBlock Text="删除" FontSize="14" CharacterSpacing="64" Foreground="Firebrick"/>
                 </StackPanel>
             </Button>
         </Grid>
-        <Grid Grid.Row="2" Margin="64" CornerRadius="8" Background="{ThemeResource EXCUTE_BK}">
+        <Grid Grid.Row="2" Margin="28">
             <Image Visibility="{x:Bind MainViewModel.ShortcutExitCode,Mode=OneWay,Converter={StaticResource Str2Vis},ConverterParameter=-}" Source="{ThemeResource INFO_WAIT_IMG}" Height="180" Width="180" Opacity="0.1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ScrollViewer Padding="20,20,20,20" Visibility="{x:Bind MainViewModel.ShortcutExitCode,Mode=OneWay,Converter={StaticResource Str2Vis}}"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Auto" HorizontalScrollMode="Auto">
