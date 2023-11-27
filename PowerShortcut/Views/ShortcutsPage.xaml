@@ -10,6 +10,7 @@
     xmlns:models="using:PowerShortcut.Models"
     xmlns:converters="using:PowerShortcut.Converters"
     mc:Ignorable="d" NavigationCacheMode="Required">
+    
     <Page.Resources>
         <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
         <converters:Enum2ColorConverter x:Key="Enum2Color"/>
@@ -40,7 +41,7 @@
                                 DataContext="{x:Bind }" Click="OnClickShortcut">
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock FontSize="14" Margin="12,12,8,0" Foreground="White" FontWeight="Bold" Text="{x:Bind ShortcutName,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" CharacterSpacing="64"/>
-                                <TextBlock x:Name="ConnectedTextBlock" FontSize="40" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                <TextBlock FontSize="40" Opacity="0.5" Foreground="White" Margin="0,0,8,8" Text="{x:Bind ShortcutIcon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                             </Grid>
                         </Button>
                     </Grid>

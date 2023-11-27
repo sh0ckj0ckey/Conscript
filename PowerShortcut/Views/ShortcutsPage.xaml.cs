@@ -40,8 +40,6 @@ namespace PowerShortcut.Views
             if (sender is Button btn && btn.DataContext is ShortcutModel shortcutModel)
             {
                 MainViewModel.Instance.SelectShortcut(shortcutModel);
-                //MainViewModel.Instance.LaunchShortcut(shortcutModel);
-
                 Frame.Navigate(typeof(ShortcutInfoPage), null);
             }
         }
