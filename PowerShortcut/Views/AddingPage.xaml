@@ -6,9 +6,31 @@
     xmlns:local="using:PowerShortcut.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:models="using:PowerShortcut.Models"
+    xmlns:converters="using:PowerShortcut.Converters"
     mc:Ignorable="d" NavigationCacheMode="Required">
 
+    <Page.Resources>
+        <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
+        <converters:Enum2ColorConverter x:Key="Enum2Color"/>
+    </Page.Resources>
+    
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="添加" Margin="20,28,20,8" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+            <StackPanel Orientation="Vertical" Padding="20,20,20,20">
+                <Grid>
+                    <Rectangle RadiusX="4" RadiusY="4" HorizontalAlignment="Stretch" Height="128" StrokeDashArray="3" StrokeThickness="2" Stroke="{ThemeResource ControlElevationBorderBrush}"/>
+                    <Button BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="点击选择或拖拽文件至此" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.3" CharacterSpacing="64"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
