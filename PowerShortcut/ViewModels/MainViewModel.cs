@@ -115,7 +115,7 @@ namespace PowerShortcut.ViewModels
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
             AppSettings.OnBackdropSettingChanged += (index) => { ActChangeBackdrop?.Invoke(); };
 
-            MainNavigationItems.Add(new MainNavigationHeader("Power Shortcut"));
+            MainNavigationItems.Add(new MainNavigationHeader("Power Shortcuts"));
             MainNavigationItems.Add(new MainNavigationItem("所有脚本", "all", "\uE74C"));
             MainNavigationItems.Add(new MainNavigationItem("添加", "add", "\uE109"));
             MainNavigationItems.Add(new MainNavigationHeader("分类"));
