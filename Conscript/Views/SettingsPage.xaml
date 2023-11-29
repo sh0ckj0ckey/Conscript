@@ -26,7 +26,7 @@
                                     <Run Text="Conscript"/>
                                     <Run Text="{x:Bind _appVersion}" FontSize="12"/>
                                 </TextBlock>
-                                <TextBlock Text="基于脚本文件的快捷中心" FontSize="13" Opacity="0.7" CharacterSpacing="64"/>
+                                <TextBlock Text="脚本文件启动中心" FontSize="13" Opacity="0.7" CharacterSpacing="64"/>
                             </StackPanel>
                         </StackPanel>
                     </controls:SettingsCard.Header>
