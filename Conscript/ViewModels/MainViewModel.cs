@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Conscript.Core;
+using Conscript.Helpers;
 using Conscript.Models;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using static Conscript.Helpers.InstalledFont;
 
 namespace Conscript.ViewModels
 {
@@ -34,17 +36,19 @@ namespace Conscript.ViewModels
         public Action ActChangeBackdrop { get; set; } = null;
 
 
-        public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
+        public ObservableCollection<MainNavigationBase> MainNavigationItems { get; set; } = new ObservableCollection<MainNavigationBase>();
 
-        public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
+        public ObservableCollection<MainNavigationBase> MainNavigationFooterItems { get; set; } = new ObservableCollection<MainNavigationBase>();
 
         /// <summary>
         /// 全部脚本列表
         /// </summary>
-        public ObservableCollection<ShortcutModel> AllShortcuts = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> AllShortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
 
-        public ObservableCollection<ShortcutModel> Ps1Shortcuts = new ObservableCollection<ShortcutModel>();
-        public ObservableCollection<ShortcutModel> BatShortcuts = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> Ps1Shortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> BatShortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
+
+        public ObservableCollection<Character> AllIcons { get; set; } = new ObservableCollection<Character>();
 
         #region 选择脚本
 
@@ -255,6 +259,18 @@ namespace Conscript.ViewModels
                 if (item.ShortcutType == ShortcutTypeEnum.Bat)
                 {
                     BatShortcuts.Add(item);
+                }
+            }
+        }
+
+        public void LoadSegoeFluentIcons()
+        {
+            if (AllIcons.Count <= 0)
+            {
+                var icons = FontHelper.GetAllSegoeFluentIcons();
+                foreach (var icon in icons)
+                {
+                    AllIcons.Add(icon);
                 }
             }
         }
