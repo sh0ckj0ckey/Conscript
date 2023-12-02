@@ -157,7 +157,7 @@ namespace Conscript.Views
                 AddingShortcutNameTextBox.PlaceholderText = "默认使用脚本文件名";
                 AddingShortcutColorComboBox.SelectedIndex = 4;
                 AddingShortcutIconGridView.SelectedIndex = 0;
-                AddingShortcutRunasCheckBox.IsChecked = false;
+                AddingShortcutRunasCheckBox.IsChecked = true;
                 UpdateLayoutByChosenFile();
 
                 AddingShortcutIconGridView.ScrollIntoView(AddingShortcutIconGridView.Items.First());
