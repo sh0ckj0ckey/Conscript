@@ -58,9 +58,10 @@
             </Button>
             <Button Grid.Column="1" Margin="8,0,0,0" Padding="12" HorizontalAlignment="Left" Click="OnClickRun"
                     IsEnabled="{x:Bind MainViewModel.ShortcutFileExists,Mode=OneWay}">
-                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5B0;" FontSize="14"/>
-                    <TextBlock Text="立即运行" FontSize="14" FontWeight="Bold" CharacterSpacing="64"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA18;" FontSize="14" Visibility="{x:Bind MainViewModel.CurrentShortcut.ShortcutRunas,Mode=OneWay,Converter={StaticResource Boo2Vis}}"/>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF5B0;" FontSize="14" Visibility="{x:Bind MainViewModel.CurrentShortcut.ShortcutRunas,Mode=OneWay,Converter={StaticResource Boo2Vis},ConverterParameter=-}"/>
+                    <TextBlock Text="立即运行" FontSize="14" FontWeight="Bold" CharacterSpacing="64" Margin="8,0,0,0"/>
                 </StackPanel>
             </Button>
             <StackPanel Grid.Column="2" Spacing="6" Margin="16,0,0,0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -68,13 +69,13 @@
                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE7BA;" FontSize="14" Foreground="Goldenrod"/>
                 <TextBlock Text="脚本文件已经丢失" FontSize="14" CharacterSpacing="32" Foreground="Goldenrod"/>
             </StackPanel>
-            <Button Grid.Column="3" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left">
+            <!--<Button Grid.Column="3" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
                     <TextBlock Text="编辑" FontSize="14" CharacterSpacing="64"/>
                 </StackPanel>
-            </Button>
-            <Button Grid.Column="4" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left" IsEnabled="{x:Bind MainViewModel.ShortcutFileExists,Mode=OneWay}">
+            </Button>-->
+            <Button Grid.Column="4" Padding="12" Margin="8,0,0,0" HorizontalAlignment="Left" IsEnabled="{x:Bind MainViewModel.ShortcutFileExists,Mode=OneWay}" Click="OnClickGoVisit">
                 <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1A5;" FontSize="14"/>
                     <TextBlock Text="查看" FontSize="14" CharacterSpacing="64"/>
@@ -85,6 +86,23 @@
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;" FontSize="14" Foreground="Firebrick"/>
                     <TextBlock Text="删除" FontSize="14" CharacterSpacing="64" Foreground="Firebrick"/>
                 </StackPanel>
+                <Button.Flyout>
+                    <Flyout x:Name="DeleteFlyout" Placement="BottomEdgeAlignedRight">
+                        <Grid Background="Transparent" MinWidth="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="确认删除吗" FontSize="14" FontWeight="Bold" CharacterSpacing="40"/>
+                            <TextBlock Grid.Row="1" Margin="0,4,0,0" TextWrapping="Wrap" Text="删除后将无法恢复" MaxWidth="200" Opacity="0.7" FontSize="13" CharacterSpacing="40" HorizontalAlignment="Left"/>
+                            <Grid Grid.Row="2" Margin="0,12,0,0">
+                                <Border Background="Firebrick" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Button Content="确认删除" FontSize="13" Background="Transparent" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnClickDelete"/>
+                            </Grid>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
             </Button>
         </Grid>
         <Grid Grid.Row="2" Margin="0,0">

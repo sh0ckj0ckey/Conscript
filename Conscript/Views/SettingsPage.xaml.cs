@@ -17,6 +17,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Conscript.Core;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,7 +55,7 @@ namespace Conscript.Views
         }
 
         /// <summary>
-        /// 查看数据库目录
+        /// 查看数据目录
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -62,11 +63,8 @@ namespace Conscript.Views
         {
             try
             {
-                string folderPath = UserDataPaths.GetDefault().Documents;
-                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
-                var dbNoMewingFolder = await folder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
-                var dbFolder = await dbNoMewingFolder.CreateFolderAsync("Conscript", CreationCollisionOption.OpenIfExists);
-                await Launcher.LaunchFolderAsync(dbFolder);
+                var folder = await StorageFilesService.GetDataFolder();
+                await Launcher.LaunchFolderAsync(folder);
             }
             catch { }
         }

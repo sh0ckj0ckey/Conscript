@@ -5,13 +5,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.Helpers;
 using Conscript.Core;
 using Conscript.Helpers;
 using Conscript.Models;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using static System.Net.Mime.MediaTypeNames;
 using static Conscript.Helpers.InstalledFont;
 
 namespace Conscript.ViewModels
@@ -35,18 +40,17 @@ namespace Conscript.ViewModels
         /// </summary>
         public Action ActChangeBackdrop { get; set; } = null;
 
+        public ObservableCollection<MainNavigationBase> MainNavigationItems { get; private set; } = new ObservableCollection<MainNavigationBase>();
 
-        public ObservableCollection<MainNavigationBase> MainNavigationItems { get; set; } = new ObservableCollection<MainNavigationBase>();
-
-        public ObservableCollection<MainNavigationBase> MainNavigationFooterItems { get; set; } = new ObservableCollection<MainNavigationBase>();
+        public ObservableCollection<MainNavigationBase> MainNavigationFooterItems { get; private set; } = new ObservableCollection<MainNavigationBase>();
 
         /// <summary>
         /// 全部脚本列表
         /// </summary>
-        public ObservableCollection<ShortcutModel> AllShortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> AllShortcuts { get; private set; } = new ObservableCollection<ShortcutModel>();
 
-        public ObservableCollection<ShortcutModel> Ps1Shortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
-        public ObservableCollection<ShortcutModel> BatShortcuts { get; set; } = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> Ps1Shortcuts { get; private set; } = new ObservableCollection<ShortcutModel>();
+        public ObservableCollection<ShortcutModel> BatShortcuts { get; private set; } = new ObservableCollection<ShortcutModel>();
 
         public ObservableCollection<Character> AllIcons { get; set; } = new ObservableCollection<Character>();
 
@@ -129,46 +133,13 @@ namespace Conscript.ViewModels
             MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationSettingItem());
 
-            LoadTest();
+            LoadShortcuts();
         }
 
-        private void LoadTest()
-        {
-            AllShortcuts.Add(new ShortcutModel()
-            {
-                ShortcutColor = ShortcutColorEnum.Blue,
-                ShortcutIcon = "\uE678",
-                ShortcutName = "禁用摄像头",
-                ShortcutType = ShortcutTypeEnum.Ps1
-            });
-
-            AllShortcuts.Add(new ShortcutModel()
-            {
-                ShortcutColor = ShortcutColorEnum.Gray,
-                ShortcutIcon = "\uE114",
-                ShortcutName = "开启摄像头",
-                ShortcutType = ShortcutTypeEnum.Ps1
-            });
-
-            AllShortcuts.Add(new ShortcutModel()
-            {
-                ShortcutColor = ShortcutColorEnum.Purple,
-                ShortcutIcon = "\uE12B",
-                ShortcutName = "断网",
-                ShortcutType = ShortcutTypeEnum.Bat,
-                ScriptFilePath = @"C:\Users\Shock Jockey\Documents\NoMewing\Conscript\a.bat"
-            });
-
-            AllShortcuts.Add(new ShortcutModel()
-            {
-                ShortcutColor = ShortcutColorEnum.Yellow,
-                ShortcutIcon = "\uE1D5",
-                ShortcutName = "开始录音开始录音开始录音开始录音开始录音",
-                ShortcutType = ShortcutTypeEnum.Ps1,
-                ScriptFilePath = @"C:\Users\Shock Jockey\Documents\NoMewing\Conscript\b.ps1"
-            });
-        }
-
+        /// <summary>
+        /// 选择查看指定的脚本快捷项
+        /// </summary>
+        /// <param name="shortcut"></param>
         public void SelectShortcut(ShortcutModel shortcut)
         {
             CurrentShortcut = shortcut;
@@ -179,6 +150,10 @@ namespace Conscript.ViewModels
             ShortcutExitCode = string.Empty;
         }
 
+        /// <summary>
+        /// 启动指定的脚本快捷项
+        /// </summary>
+        /// <param name="shortcut"></param>
         public async void LaunchShortcut(ShortcutModel shortcut)
         {
             if (shortcut != null)
@@ -194,10 +169,10 @@ namespace Conscript.ViewModels
                     {
                         var processInfo = new ProcessStartInfo();
                         processInfo.CreateNoWindow = true;
-                        processInfo.UseShellExecute = false;
-                        processInfo.WorkingDirectory = Path.GetDirectoryName(shortcut.ScriptFilePath);
-                        processInfo.RedirectStandardError = true;
-                        processInfo.RedirectStandardOutput = true;
+                        processInfo.UseShellExecute = shortcut.ShortcutRunas;
+                        processInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(shortcut.ScriptFilePath);
+                        processInfo.RedirectStandardError = !shortcut.ShortcutRunas;
+                        processInfo.RedirectStandardOutput = !shortcut.ShortcutRunas;
 
                         if (shortcut.ShortcutType == ShortcutTypeEnum.Ps1)
                         {
@@ -209,19 +184,27 @@ namespace Conscript.ViewModels
                             processInfo.FileName = shortcut.ScriptFilePath;
                         }
 
+                        if (shortcut.ShortcutRunas)
+                        {
+                            processInfo.Verb = "runas";
+                        }
+
                         var process = Process.Start(processInfo);
                         process.WaitForExit();
 
-                        string output = process.StandardOutput.ReadToEnd();
-                        string error = process.StandardError.ReadToEnd();
-                        string exitCode = process.ExitCode.ToString();
-
-                        DispatcherQueue.TryEnqueue(() =>
+                        if (!shortcut.ShortcutRunas)
                         {
-                            ShortcutOutput = output;
-                            ShortcutError = error;
-                            ShortcutExitCode = exitCode;
-                        });
+                            string output = process.StandardOutput.ReadToEnd();
+                            string error = process.StandardError.ReadToEnd();
+                            string exitCode = process.ExitCode.ToString();
+
+                            DispatcherQueue.TryEnqueue(() =>
+                            {
+                                ShortcutOutput = output;
+                                ShortcutError = error;
+                                ShortcutExitCode = exitCode;
+                            });
+                        }
 
                         process.Close();
                     }
@@ -237,6 +220,9 @@ namespace Conscript.ViewModels
             }
         }
 
+        /// <summary>
+        /// 从所有脚本快捷项中筛选出 PowerShell 类型
+        /// </summary>
         public void UpdatePs1Shortcuts()
         {
             Ps1Shortcuts.Clear();
@@ -250,6 +236,9 @@ namespace Conscript.ViewModels
             }
         }
 
+        /// <summary>
+        /// 从所有脚本快捷项中筛选出批处理类型
+        /// </summary>
         public void UpdateBatShortcuts()
         {
             BatShortcuts.Clear();
@@ -263,6 +252,9 @@ namespace Conscript.ViewModels
             }
         }
 
+        /// <summary>
+        /// 加载本机 Segoe Fluent Icons 字体内的所有图标
+        /// </summary>
         public void LoadSegoeFluentIcons()
         {
             if (AllIcons.Count <= 0)
@@ -272,6 +264,90 @@ namespace Conscript.ViewModels
                 {
                     AllIcons.Add(icon);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 加载保存的脚本快捷项
+        /// </summary>
+        private async void LoadShortcuts()
+        {
+            try
+            {
+                try
+                {
+                    string shortcutsJson = await StorageFilesService.ReadFileAsync("shortcuts.json");
+                    if (!string.IsNullOrWhiteSpace(shortcutsJson))
+                    {
+                        var shortcuts = JsonSerializer.Deserialize<ObservableCollection<ShortcutModel>>(shortcutsJson);
+
+                        foreach (var shortcut in shortcuts)
+                        {
+                            AllShortcuts.Add(shortcut);
+                        }
+                    }
+                }
+                catch (Exception e) { Debug.WriteLine(e.Message); }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 添加新的脚本快捷项并保存
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="iconIndex"></param>
+        /// <param name="name"></param>
+        /// <param name="ext"></param>
+        public async void AddShortcut(int color, int iconIndex, string name, string ext, string path, bool runas)
+        {
+            try
+            {
+                this.AllShortcuts.Insert(0, new ShortcutModel()
+                {
+                    ShortcutColor = (ShortcutColorEnum)(Math.Max(1, Math.Min(color, 9))),
+                    ShortcutIcon = this.AllIcons[iconIndex].Char,
+                    ShortcutName = name,
+                    ShortcutType = ext == ".ps1" ? ShortcutTypeEnum.Ps1 : ShortcutTypeEnum.Bat,
+                    ScriptFilePath = path,
+                    ShortcutRunas = runas
+                });
+
+                string shortcutsSaveJson = JsonSerializer.Serialize(AllShortcuts);
+                _ = await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 移除指定脚本快捷项并保存
+        /// </summary>
+        /// <param name="deletingShortcut"></param>
+        public async void DelShortcut(ShortcutModel deletingShortcut)
+        {
+            try
+            {
+                string deleteFilePath = deletingShortcut.ScriptFilePath;
+
+                this.AllShortcuts.Remove(deletingShortcut);
+
+                if (File.Exists(deleteFilePath))
+                {
+                    File.Delete(deleteFilePath);
+                }
+
+                string shortcutsSaveJson = JsonSerializer.Serialize(AllShortcuts);
+                _ = await StorageFilesService.WriteFileAsync("shortcuts.json", shortcutsSaveJson);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
             }
         }
     }

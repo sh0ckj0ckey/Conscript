@@ -20,6 +20,8 @@
 		<PackageCertificateThumbprint>5A0BF8439709A49B4461A62D501B413C3C6D9293</PackageCertificateThumbprint>
 	</PropertyGroup>
 	<ItemGroup>
+		<None Remove="Assets\Icons\file_bat_icon.png" />
+		<None Remove="Assets\Icons\file_ps1_icon.png" />
 		<None Remove="Assets\Icons\icon_github_dark.png" />
 		<None Remove="Assets\Icons\icon_github_light.png" />
 		<None Remove="Assets\Icons\icon_mail.png" />

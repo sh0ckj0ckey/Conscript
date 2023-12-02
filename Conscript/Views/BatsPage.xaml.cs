@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Conscript.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Conscript.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -40,7 +41,11 @@ namespace Conscript.Views
 
         private void OnClickShortcut(object sender, RoutedEventArgs e)
         {
-
+            if (sender is Button btn && btn.DataContext is ShortcutModel shortcutModel)
+            {
+                MainViewModel.Instance.SelectShortcut(shortcutModel);
+                Frame.Navigate(typeof(ShortcutInfoPage), null);
+            }
         }
     }
 }

@@ -54,5 +54,15 @@ namespace Conscript.Models
             get => _shortcutColor;
             set => SetProperty(ref _shortcutColor, value);
         }
+
+        /// <summary>
+        /// 是否需要管理员权限
+        /// </summary>
+        private bool _shortcutRunas = false;
+        public bool ShortcutRunas
+        {
+            get => _shortcutRunas;
+            set => SetProperty(ref _shortcutRunas, value);
+        }
     }
 }

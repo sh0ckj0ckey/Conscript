@@ -11,10 +11,7 @@ namespace Conscript.Core
 {
     public static class StorageFilesService
     {
-        // 存储数据的文件夹名称
-        private static string DataFolderName = "ConscriptData";
-
-        // 存储数据的文件夹对象(单例，见下面的GetDataFolder方法)
+        // 存储数据的文件夹对象
         private static StorageFolder DataFolder = null;
 
         /// <summary>
@@ -25,7 +22,9 @@ namespace Conscript.Core
         {
             if (DataFolder == null)
             {
-                DataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(DataFolderName, CreationCollisionOption.OpenIfExists);
+                StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
+                var noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
+                DataFolder = await noMewingFolder.CreateFolderAsync("Conscript", CreationCollisionOption.OpenIfExists);
             }
             return DataFolder;
         }
