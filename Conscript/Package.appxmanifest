@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="c8a329e4-2265-4907-a426-afef510ef897" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Conscript</DisplayName>
+    <DisplayName>Conscript - 脚本文件启动中心</DisplayName>
     <PublisherDisplayName>No Mewing</PublisherDisplayName>
     <Logo>Assets\Manifests\StoreLogo.png</Logo>
   </Properties>
