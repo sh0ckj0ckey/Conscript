@@ -106,7 +106,7 @@
                     </Button>
                 </controls:SettingsCard>
                 <Grid>
-                    <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
+                    <TextBlock Text="©2023 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
                     <TextBlock Text="图标来源网络，如有侵权请联系" HorizontalAlignment="Right" Opacity="0.5" CharacterSpacing="48" FontSize="12" Margin="4,8,4,8"/>
                 </Grid>
             </StackPanel>

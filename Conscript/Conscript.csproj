@@ -25,7 +25,7 @@
 		<GenerateTestArtifacts>True</GenerateTestArtifacts>
 		<AppxBundlePlatforms>arm64</AppxBundlePlatforms>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<AppxPackageDir>C:\Users\Shock Jockey\Desktop\arm</AppxPackageDir>
+		<AppxPackageDir>C:\Users\Shock Jockey\Desktop\ARM64\</AppxPackageDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Assets\Icons\file_bat_icon.png" />
